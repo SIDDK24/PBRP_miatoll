@@ -19,17 +19,14 @@ PRODUCT_RELEASE_NAME := miatoll
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 DEVICE_PATH := device/xiaomi/miatoll
 
-$(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base.mk)
+# Inherit from those products. Most specific first.
+$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 
 # Inherit from our custom product configuration
 $(call inherit-product, vendor/pb/config/common.mk)
 
-PRODUCT_COPY_FILES += $(call find-copy-subdir-files,*,$(LOCAL_PATH)/recovery/root,recovery/root)
-
-PRODUCT_PACKAGES += \
-	fastbootd \
-    android.hardware.fastboot@1.0-impl-mock \
-    android.hardware.fastboot@1.0-impl-mock.recovery
+# Inherit from hardware-specific part of the product configuration
+$(call inherit-product, device/xiaomi/miatoll/device.mk)
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := miatoll
